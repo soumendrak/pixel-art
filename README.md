@@ -10,14 +10,14 @@
   <p>A polished, zero-dependency 32×32 pixel art editor — works in any browser, deployable on GitHub Pages.</p>
 
   <p>
-    <a href="#"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
-    <a href="#"><img src="https://img.shields.io/badge/build-passing-brightgreen.svg" alt="Build"></a>
-    <a href="#"><img src="https://img.shields.io/badge/zero-dependencies-orange.svg" alt="Zero Dependencies"></a>
-    <a href="#"><img src="https://img.shields.io/badge/PRs-welcome-ff69b4.svg" alt="PRs Welcome"></a>
+    <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
+    <img src="https://img.shields.io/badge/build-passing-brightgreen.svg" alt="Build">
+    <img src="https://img.shields.io/badge/zero-dependencies-orange.svg" alt="Zero Dependencies">
+    <a href="https://github.com/soumendrak/pixel-art/pulls"><img src="https://img.shields.io/badge/PRs-welcome-ff69b4.svg" alt="PRs Welcome"></a>
   </p>
 
   <p>
-    <strong><a href="https://YOUR_USERNAME.github.io/pixel-art">🌐 Live Demo</a></strong>
+    <strong><a href="https://soumendrak.github.io/pixel-art">🌐 Live Demo</a></strong>
     ·
     <strong><a href="#features">Features</a></strong>
     ·
@@ -125,7 +125,7 @@ This is a single HTML file with everything inlined. No build step required.
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/pixel-art.git
+git clone https://github.com/soumendrak/pixel-art.git
 cd pixel-art
 
 # Open locally
@@ -146,7 +146,7 @@ All the code lives in `index.html`:
 1. Push this repository to GitHub.
 2. Go to **Settings > Pages**.
 3. Select the `main` branch as the source.
-4. Your editor will be live at `https://YOUR_USERNAME.github.io/pixel-art/`.
+4. Your editor will be live at `https://soumendrak.github.io/pixel-art/`.
 
 ## 📄 License
 
