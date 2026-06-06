@@ -430,6 +430,15 @@
       <button class="btn btn-icon" id="undoBtn" title="Undo (Ctrl+Z)">↩️</button>
       <button class="btn btn-icon btn-danger" id="clearBtn" title="Clear canvas">🗑️</button>
       <div class="toolbar-sep"></div>
+      <div class="size-group">
+        <label>Canvas</label>
+        <div class="size-btns" id="canvasSizeBtns">
+          <button class="btn" data-grid="32">32</button>
+          <button class="btn active-tool" data-grid="64">64</button>
+          <button class="btn" data-grid="128">128</button>
+        </div>
+      </div>
+      <div class="toolbar-sep"></div>
       <label class="toggle-row">
         <input type="checkbox" id="gridToggle" checked>
         Grid
@@ -470,10 +479,11 @@
 <script>
 (function(){
   // ── constants ──
-  const GRID_SIZE = 32;
   const CANVAS_SIZE = 640;      // internal px
-  const CELL_SIZE = CANVAS_SIZE / GRID_SIZE;  // 20
   const MAX_UNDO = 20;
+
+  let GRID_SIZE = 64;
+  let CELL_SIZE = CANVAS_SIZE / GRID_SIZE;
 
   // ── 16 preset colors ──
   const COLORS = [
@@ -863,6 +873,41 @@
     render();
   }
 
+  // ── canvas size ──
+  function setCanvasSize(newSize) {
+    if (newSize === GRID_SIZE) return;
+    const oldSize = GRID_SIZE;
+    const oldGrid = grid;
+
+    // Create new grid with new dimensions
+    GRID_SIZE = newSize;
+    CELL_SIZE = CANVAS_SIZE / GRID_SIZE;
+    const newGrid = createEmptyGrid();
+
+    // Copy existing pixels where they fit
+    const copySize = Math.min(oldSize, newSize);
+    for (let y = 0; y < copySize; y++) {
+      for (let x = 0; x < copySize; x++) {
+        if (y < oldGrid.length && x < oldGrid[y].length) {
+          newGrid[y][x] = oldGrid[y][x];
+        }
+      }
+    }
+
+    grid = newGrid;
+    undoStack = [];
+    undoIndex = -1;
+    pushUndo();
+
+    // Update UI active state
+    document.querySelectorAll('#canvasSizeBtns .btn').forEach(el => {
+      el.classList.toggle('active-tool', parseInt(el.dataset.grid) === newSize);
+    });
+
+    render();
+    statusSize.textContent = newSize + '×' + newSize;
+  }
+
   // ── export ──
   function exportPNG() {
     // render without grid for clean export
@@ -936,6 +981,11 @@
       render();
     });
 
+    // canvas size buttons
+    document.querySelectorAll('#canvasSizeBtns .btn').forEach(el => {
+      el.addEventListener('click', () => setCanvasSize(parseInt(el.dataset.grid)));
+    });
+
     // buttons
     clearBtn.addEventListener('click', () => {
       if (confirm('Clear all pixels?')) clearCanvas();
@@ -952,11 +1002,18 @@
 
   // ── init ──
   function init() {
+    GRID_SIZE = 64;
+    CELL_SIZE = CANVAS_SIZE / GRID_SIZE;
     initGrid();
     buildPalette();
     selectColor(COLORS[1]); // white
     setTool('pen');
     setPenSize(1);
+    // Activate 64 button as default
+    document.querySelectorAll('#canvasSizeBtns .btn').forEach(el => {
+      el.classList.toggle('active-tool', parseInt(el.dataset.grid) === 64);
+    });
+    statusSize.textContent = '64×64';
     bindEvents();
     render();
   }
